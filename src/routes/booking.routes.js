@@ -2,6 +2,8 @@ const express = require("express");
 const controller = require("../controllers/booking.controller");
 const authMiddleware = require("../middleware/auth");
 
+console.log("DEBUG - bookingRoutes.js loaded");
+
 const router = express.Router();
 
 // USER: View own bookings

@@ -60,8 +60,9 @@ exports.getBooking = async (req, res) => {
  */
 exports.createBooking = async (req, res) => {
    console.log("DEBUG createBooking req.body:", req.body);
-  const { username, checkInDate, checkOutDate, guests } = req.body;
-  if (!username || !checkInDate || !checkOutDate || !guests) {
+  const { username, checkInDate, checkOutDate, guests, room } = req.body;
+  console.log("Received room:", room);
+  if (!username || !checkInDate || !checkOutDate || !guests || !room) {
     return res.status(400).json({ message: "Missing required fields" });
   }
   if (!isISODate(checkInDate) || !isISODate(checkOutDate)) {
@@ -74,9 +75,14 @@ exports.createBooking = async (req, res) => {
       checkInDate,
       checkOutDate,
       guests,
+       room,
       status: "Pending",
       userId: req.user.id, // link booking to logged-in user
     });
+
+     console.log("DEBUG booking doc before save:", booking);
+
+     
     await booking.save();
     res.status(201).json(booking);
   } catch (err) {
